@@ -1,0 +1,7 @@
+MarkdownImagePaste 1.1.0
+========================
+
+- Windows support: paste a clipboard image with Ctrl+V in markdown files.
+  Ships a bundled x86-64 helper that reads the Win32 clipboard.
+- Encoded clipboard formats (PNG/JPEG/GIF) are saved as-is. A raw bitmap
+  (e.g. a Windows screenshot) is saved as .bmp.
