@@ -6,7 +6,8 @@ saved next to the current .md file (or in a configurable subdirectory) as
 Otherwise the normal paste is performed.
 
 Clipboard access is delegated to a bundled Go helper, selected per platform:
-``bin/darwin/imgpaste`` (macOS) or ``bin/windows/imgpaste.exe`` (Windows).
+``bin/darwin/imgpaste`` (macOS), ``bin/windows/imgpaste.exe`` (Windows) or
+``bin/linux/imgpaste`` (Linux; requires wl-paste or xclip).
 """
 
 import os

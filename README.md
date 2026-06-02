@@ -1,4 +1,4 @@
-# Markdown Image Paste (Sublime Text 4 - macOS & Windows)
+# Markdown Image Paste (Sublime Text 4 - macOS, Windows & Linux)
 
 Paste a clipboard image straight into a markdown file.
 
@@ -24,6 +24,9 @@ binary, selected per platform:
 
 - macOS: `bin/darwin/imgpaste`, reads `NSPasteboard`.
 - Windows: `bin/windows/imgpaste.exe`, reads the Win32 clipboard.
+- Linux: `bin/linux/imgpaste`, shells out to `wl-paste` (Wayland) or `xclip`
+  (X11) - one of those must be installed (`sudo apt install wl-clipboard` or
+  `sudo apt install xclip`).
 
 ## Installation
 
@@ -46,6 +49,7 @@ The prebuilt helper binaries are already bundled:
 
 - `bin/darwin/imgpaste` - universal macOS binary (arm64 + x86_64).
 - `bin/windows/imgpaste.exe` - Windows x86-64 binary.
+- `bin/linux/imgpaste` - Linux x86-64 binary.
 
 To rebuild them:
 
@@ -59,6 +63,9 @@ lipo -create -output ../bin/darwin/imgpaste /tmp/imgpaste_arm64 /tmp/imgpaste_am
 
 # Windows binary (cross-compiles from any OS, no cgo)
 GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -o ../bin/windows/imgpaste.exe .
+
+# Linux binary (cross-compiles from any OS, no cgo; use GOARCH=arm64 for ARM)
+GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o ../bin/linux/imgpaste .
 ```
 
 ## Configuration
@@ -92,8 +99,9 @@ GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -o ../bin/windows/imgpaste.exe 
 
 ## Limitations
 
-- macOS (universal arm64 + x86_64) and Windows (x86-64). Linux: keymap and
-  binary to be added later.
+- macOS (universal arm64 + x86_64), Windows (x86-64) and Linux (x86-64;
+  rebuild for ARM).
+- Linux requires `wl-paste` (wl-clipboard) or `xclip` to be installed.
 - On Windows, images available only as a raw bitmap are saved as `.bmp`
   (lossless, but larger and not previewed by every markdown renderer).
 - No image resizing or compression.

@@ -1,0 +1,8 @@
+MarkdownImagePaste 1.2.0
+========================
+
+- Linux support: paste a clipboard image with Ctrl+V in markdown files.
+  Ships a bundled x86-64 helper that uses wl-paste (Wayland) or xclip (X11),
+  so one of those tools must be installed:
+    sudo apt install wl-clipboard   # Wayland
+    sudo apt install xclip          # X11
