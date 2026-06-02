@@ -1,0 +1,6 @@
+[
+    {
+        "caption": "PasteImage: Markdown Paste Image From Clipboard",
+        "command": "md_paste_image"
+    }
+]

@@ -1,0 +1,6 @@
+{
+    // Subdirectory (relative to the .md file) where pasted images are saved.
+    // "" = same folder as the markdown file.
+    // Example: "assets" -> images in ./assets/, reference ![](assets/note_01.png)
+    "image_subdir": ""
+}
