@@ -1,38 +1,45 @@
 # Markdown Image Paste (Sublime Text 4 - macOS)
 
-Coller une image du presse-papier directement dans un fichier markdown.
+Paste a clipboard image straight into a markdown file.
 
-Quand le presse-papier contient une image et que vous faites `Cmd+V` dans un
-fichier markdown, l'image est enregistrée à côté du `.md` courant (ou dans un
-sous-dossier configurable) sous le nom `<nomDuFichier>_<N>.<ext>`, et la
-référence `![](chemin/relatif)` est insérée à la position du curseur.
+When the clipboard holds an image and you press `Cmd+V` in a markdown file, the
+image is saved next to the current `.md` (or in a configurable subdirectory) as
+`<filename>_<N>.<ext>`, and a `![](relative/path)` reference is inserted at the
+cursor.
 
-S'il n'y a pas d'image dans le presse-papier (ou hors d'un fichier markdown),
-`Cmd+V` garde son comportement normal de collage.
+If there is no image in the clipboard (or you are not in a markdown file),
+`Cmd+V` keeps its normal paste behavior.
 
-## Fonctionnement
+## How it works
 
-- Le format source est préservé : `png`, `jpg`, `gif` ou `tiff` selon ce que
-  contient le presse-papier.
-- Le numéro `N` vaut `(plus grand numéro déjà présent) + 1`.
-- Si le fichier markdown n'a pas encore été enregistré sur disque, l'action est
-  refusée avec un message (le plugin a besoin d'un chemin de référence).
+- The source format is preserved: `png`, `jpg`, `gif` or `tiff`, depending on
+  what the clipboard holds.
+- `N` is `(highest existing number) + 1`.
+- If the markdown file has not been saved to disk yet, the action is refused
+  with a status message (the plugin needs a reference path).
 
-L'accès au presse-papier (non natif dans Sublime Text) est délégué à un petit
-binaire Go embarqué : `bin/darwin/imgpaste`, qui lit le `NSPasteboard` macOS.
+Clipboard access (not native in Sublime Text) is delegated to a small bundled Go
+binary, `bin/darwin/imgpaste`, which reads the macOS `NSPasteboard`.
 
 ## Installation
 
-1. Copier (ou lier) ce dossier dans le répertoire `Packages` de Sublime Text :
+### Via Package Control
+
+Install **MarkdownImagePaste** from `Package Control: Install Package`.
+(macOS / Sublime Text 4 only.)
+
+### Manual
+
+1. Copy (or symlink) this folder into the Sublime Text `Packages` directory:
 
    ```sh
    ln -s "$(pwd)" \
      "$HOME/Library/Application Support/Sublime Text/Packages/MarkdownImagePaste"
    ```
 
-2. Le binaire `bin/darwin/imgpaste` est déjà précompilé en **universel**
-   (arm64 + x86_64), il fonctionne sur Mac Apple Silicon et Mac Intel. Pour le
-   recompiler :
+2. The `bin/darwin/imgpaste` binary is already precompiled as a **universal**
+   binary (arm64 + x86_64); it runs on both Apple Silicon and Intel Macs. To
+   rebuild it:
 
    ```sh
    cd helper
@@ -41,7 +48,7 @@ binaire Go embarqué : `bin/darwin/imgpaste`, qui lit le `NSPasteboard` macOS.
    lipo -create -output ../bin/darwin/imgpaste /tmp/imgpaste_arm64 /tmp/imgpaste_amd64
    ```
 
-   Ou, pour la seule architecture courante :
+   Or, for the current architecture only:
 
    ```sh
    cd helper && go build -o ../bin/darwin/imgpaste .
@@ -49,33 +56,34 @@ binaire Go embarqué : `bin/darwin/imgpaste`, qui lit le `NSPasteboard` macOS.
 
 ## Configuration
 
-`Preferences > Package Settings` ou éditer `MarkdownImagePaste.sublime-settings` :
+`Preferences > Package Settings > Markdown Image Paste > Settings`, or edit
+`MarkdownImagePaste.sublime-settings`:
 
 ```json
 {
-    // "" = même dossier que le .md. Exemple : "assets".
+    // "" = same folder as the .md. Example: "assets".
     "image_subdir": ""
 }
 ```
 
-## Utilisation
+## Usage
 
-- `Cmd+V` dans un fichier markdown avec une image dans le presse-papier.
-- Ou via la Command Palette (`Cmd+Shift+P`) :
+- `Cmd+V` in a markdown file with an image in the clipboard.
+- Or via the Command Palette (`Cmd+Shift+P`):
   `PasteImage: Markdown Paste Image From Clipboard`.
 
-## Tester le binaire seul
+## Testing the binary alone
 
 ```sh
-# avec une image dans le presse-papier
+# with an image in the clipboard
 ./bin/darwin/imgpaste detect          # -> png|jpg|gif|tiff, exit 0
-./bin/darwin/imgpaste save /tmp/x.png # écrit le fichier, exit 0
-# sans image (du texte copié)
+./bin/darwin/imgpaste save /tmp/x.png # writes the file, exit 0
+# without an image (text copied)
 ./bin/darwin/imgpaste detect          # exit 1
 ```
 
-## Limites (v1)
+## Limitations (v1)
 
-- macOS uniquement (binaire universel arm64 + x86_64). Windows/Linux : keymaps
-  et binaires à ajouter ultérieurement.
-- Pas de redimensionnement ni de compression d'image.
+- macOS only (universal arm64 + x86_64 binary). Windows/Linux: keymaps and
+  binaries to be added later.
+- No image resizing or compression.
