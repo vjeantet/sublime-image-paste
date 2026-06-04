@@ -67,11 +67,6 @@ def _next_index(target_dir, stem):
 class MdPasteImageCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         file_name = self.view.file_name()
-        if not file_name:
-            sublime.status_message(
-                "PasteImage: enregistre d'abord le fichier markdown"
-            )
-            return
 
         try:
             code, ext = _run_helper(["detect"])
@@ -83,6 +78,14 @@ class MdPasteImageCommand(sublime_plugin.TextCommand):
         # No image in clipboard -> normal paste.
         if code != 0 or not ext:
             self.view.run_command("paste")
+            return
+
+        # Image in clipboard but file not saved yet: no directory to save the
+        # image into, so ask the user to save first.
+        if not file_name:
+            sublime.status_message(
+                "PasteImage: enregistre d'abord le fichier markdown"
+            )
             return
 
         md_dir = os.path.dirname(file_name)
