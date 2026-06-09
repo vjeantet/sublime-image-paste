@@ -5,8 +5,9 @@ saved next to the current .md file (or in a configurable subdirectory) as
 ``<mdname>_<N>.<ext>`` and a ``![](relative/path)`` reference is inserted.
 Otherwise the normal paste is performed.
 
-macOS only for now. Clipboard access is delegated to the bundled Go helper
-``bin/darwin/imgpaste``.
+Clipboard access is delegated to a bundled Go helper, selected per platform:
+``bin/darwin/imgpaste`` (macOS), ``bin/windows/imgpaste.exe`` (Windows) or
+``bin/linux/imgpaste`` (Linux; requires wl-paste or xclip).
 """
 
 import os
@@ -18,11 +19,18 @@ import sublime_plugin
 
 SETTINGS_FILE = "MarkdownImagePaste.sublime-settings"
 HELPER_TIMEOUT = 10  # seconds
-IMAGE_EXTS = ("png", "jpg", "jpeg", "gif", "tiff")
+IMAGE_EXTS = ("png", "jpg", "jpeg", "gif", "tiff", "bmp")
+
+PLATFORM = sublime.platform()  # "osx", "windows" or "linux"
 
 
 def _helper_path():
-    return os.path.join(os.path.dirname(__file__), "bin", "darwin", "imgpaste")
+    base = os.path.join(os.path.dirname(__file__), "bin")
+    if PLATFORM == "windows":
+        return os.path.join(base, "windows", "imgpaste.exe")
+    if PLATFORM == "osx":
+        return os.path.join(base, "darwin", "imgpaste")
+    return os.path.join(base, "linux", "imgpaste")
 
 
 def _ensure_executable(path):
@@ -38,12 +46,15 @@ def _run_helper(args):
     """Run the helper with the given args. Returns (returncode, stdout-stripped)."""
     helper = _helper_path()
     _ensure_executable(helper)
-    proc = subprocess.run(
-        [helper] + args,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        timeout=HELPER_TIMEOUT,
-    )
+    kwargs = {
+        "stdout": subprocess.PIPE,
+        "stderr": subprocess.PIPE,
+        "timeout": HELPER_TIMEOUT,
+    }
+    if PLATFORM == "windows":
+        # Don't flash a console window when launching the helper.
+        kwargs["creationflags"] = 0x08000000  # CREATE_NO_WINDOW
+    proc = subprocess.run([helper] + args, **kwargs)
     return proc.returncode, proc.stdout.decode("utf-8", "replace").strip()
 
 

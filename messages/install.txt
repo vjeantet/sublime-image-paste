@@ -3,13 +3,14 @@ MarkdownImagePaste
 
 Paste a clipboard image straight into a markdown file.
 
-In a markdown view, press Cmd+V (macOS): if the clipboard holds an image, it is
-saved next to the current .md file and a ![](path) reference is inserted.
-Otherwise the normal paste happens.
+In a markdown view, press the paste shortcut (Cmd+V on macOS, Ctrl+V on Windows
+and Linux): if the clipboard holds an image, it is saved next to the current .md
+file and a ![](path) reference is inserted. Otherwise the normal paste happens.
 
 Requirements
 ------------
-- macOS only (ships a universal arm64 + x86_64 helper binary).
+- macOS (universal arm64 + x86_64), Windows (x86-64) or Linux (x86-64).
+- Linux only: install wl-clipboard (Wayland) or xclip (X11).
 - Sublime Text 4 (the package runs under the Python 3.8 plugin host).
 
 Configuration
