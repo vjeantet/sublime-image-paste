@@ -14,7 +14,7 @@ Requirements
 
 Configuration
 -------------
-Preferences > Package Settings > Markdown Image Paste > Settings
+Preferences > Package Settings > MarkdownImagePaste > Settings
 
     {
         // "" = same folder as the .md. Example: "assets".

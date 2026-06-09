@@ -56,7 +56,7 @@ Install **MarkdownImagePaste** from `Package Control: Install Package`.
 
 ## Configuration
 
-`Preferences > Package Settings > Markdown Image Paste > Settings`, or edit
+`Preferences > Package Settings > MarkdownImagePaste > Settings`, or edit
 `MarkdownImagePaste.sublime-settings`:
 
 ```json

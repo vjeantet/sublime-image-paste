@@ -71,7 +71,7 @@ class MdPasteImageCommand(sublime_plugin.TextCommand):
         try:
             code, ext = _run_helper(["detect"])
         except Exception as e:
-            sublime.status_message("PasteImage: erreur helper ({})".format(e))
+            sublime.status_message("PasteImage: helper error ({})".format(e))
             self.view.run_command("paste")
             return
 
@@ -84,7 +84,7 @@ class MdPasteImageCommand(sublime_plugin.TextCommand):
         # image into, so ask the user to save first.
         if not file_name:
             sublime.status_message(
-                "PasteImage: enregistre d'abord le fichier markdown"
+                "PasteImage: save the markdown file first"
             )
             return
 
@@ -98,7 +98,7 @@ class MdPasteImageCommand(sublime_plugin.TextCommand):
         try:
             os.makedirs(target_dir, exist_ok=True)
         except OSError as e:
-            sublime.status_message("PasteImage: dossier illisible ({})".format(e))
+            sublime.status_message("PasteImage: cannot create folder ({})".format(e))
             return
 
         index = _next_index(target_dir, stem)
@@ -108,14 +108,14 @@ class MdPasteImageCommand(sublime_plugin.TextCommand):
         try:
             save_code, _ = _run_helper(["save", out_path])
         except Exception as e:
-            sublime.status_message("PasteImage: erreur sauvegarde ({})".format(e))
+            sublime.status_message("PasteImage: save error ({})".format(e))
             return
 
         if save_code != 0 or not os.path.exists(out_path):
-            sublime.status_message("PasteImage: échec de l'enregistrement de l'image")
+            sublime.status_message("PasteImage: failed to save image")
             return
 
         rel_path = os.path.relpath(out_path, md_dir).replace(os.sep, "/")
         reference = "![]({})".format(rel_path)
         self.view.run_command("insert", {"characters": reference})
-        sublime.status_message("PasteImage: image enregistrée -> {}".format(rel_path))
+        sublime.status_message("PasteImage: image saved -> {}".format(rel_path))

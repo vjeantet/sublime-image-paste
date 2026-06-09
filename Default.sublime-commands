@@ -2,5 +2,13 @@
     {
         "caption": "PasteImage: Markdown Paste Image From Clipboard",
         "command": "md_paste_image"
+    },
+    {
+        "caption": "Preferences: MarkdownImagePaste Settings",
+        "command": "edit_settings",
+        "args": {
+            "base_file": "${packages}/MarkdownImagePaste/MarkdownImagePaste.sublime-settings",
+            "default": "{\n\t// \"\" = same folder as the .md. Example: \"assets\".\n\t\"image_subdir\": \"\"\n}\n"
+        }
     }
 ]
