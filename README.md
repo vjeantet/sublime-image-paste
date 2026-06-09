@@ -1,5 +1,16 @@
 # Markdown Image Paste (Sublime Text 4 - macOS, Windows & Linux)
 
+> **This package is not published and is no longer maintained for distribution.**
+> I decided not to submit it to Package Control in favor of the existing
+> [`imagepaste`](https://github.com/kaste/imagepaste) package by @kaste, which
+> already solves the same problem more idiomatically (cross-platform, Pillow as
+> a managed dependency, no bundled binary to ship).
+> See the closed submission PR for the full discussion:
+> [sublimehq/package_control_channel#9442](https://github.com/sublimehq/package_control_channel/pull/9442).
+>
+> This repository is kept for reference. If you want this feature, install
+> [`imagepaste`](https://github.com/kaste/imagepaste) instead.
+
 Paste a clipboard image straight into a markdown file.
 
 When the clipboard holds an image and you press the paste shortcut (`Cmd+V` on
@@ -30,10 +41,9 @@ binary, selected per platform:
 
 ## Installation
 
-### Via Package Control
-
-Install **MarkdownImagePaste** from `Package Control: Install Package`.
-(Sublime Text 4, macOS, Windows or Linux.)
+> **Note:** this package is not available in Package Control (see the notice at
+> the top of this README). Install [`imagepaste`](https://github.com/kaste/imagepaste)
+> from there instead. The instructions below are for manual / reference use only.
 
 ### Manual
 
